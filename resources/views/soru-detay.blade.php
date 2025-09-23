@@ -591,7 +591,7 @@
       </div>
 
       <div class="qna-author">
-        <img src="{{ $topic->user?->image_path ? asset('storage/'.$topic->user->image_path) : 'https://via.placeholder.com/60x60?text=👤' }}">
+        <img src="{{ $topic->user?->image_path ? asset('storage/'.$topic->user->image_path) : asset('storage/default/avatar.png') }}">
         <div>
           <strong>{{ $topic->user->name }}</strong>
           <div class="small text-muted">
@@ -716,7 +716,7 @@
         <div class="me-md-3 mb-2 mb-md-0 text-center">
             <img src="{{ $comment->user?->image_path
                             ? asset('storage/'.$comment->user->image_path)
-                            : 'https://via.placeholder.com/60x60?text=👤' }}"
+                            : asset('storage/default/avatar.png') }}"
                  alt="{{ $comment->user->name ?? 'Anonim' }}"
                  class="rounded-circle"
                  style="width:60px;height:60px;object-fit:cover;">
@@ -773,13 +773,17 @@
                         </button>
                     </form>
 
-                   <form method="POST" action="{{ route('comment.delete', $comment->id) }}" class="d-inline">
-    @csrf
-    <input type="hidden" name="comment_id" value="{{ $comment->id }}">
-    <button type="submit" class="btn btn-outline-danger btn-sm">
-        Sil
-    </button>
-</form>
+@auth
+  @if (Auth::id() === $comment->user_id)
+    <form method="POST" action="{{ route('comment.delete', $comment->id) }}" class="d-inline">
+        @csrf
+        <button type="submit" class="btn btn-outline-danger btn-sm">
+            Sil
+        </button>
+    </form>
+  @endif
+@endauth
+
 
                 @else
                     <a href="https://www.expressmama.com/UyeGiris" class="btn btn-outline-primary btn-sm">

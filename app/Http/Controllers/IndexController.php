@@ -57,6 +57,8 @@ class IndexController extends Controller
             ->take(3)
             ->get();
 
+            
+
         return view('index', compact(
             'count', 'topics', 'sahiplendirmeTopics', 'categories', 'categoryFilter', 'q'
         ));

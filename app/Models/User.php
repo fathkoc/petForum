@@ -67,6 +67,13 @@ class User extends Authenticatable
         }
     }
 
+    public function getAvatarUrlAttribute(): string
+    {
+            return $this->image_path
+                ? asset('storage/'.$this->image_path)
+                : asset('images/defaults/user.png');
+    }
+    
     public function likedComments()
     {
         return $this->belongsToMany(\App\Models\Comment::class, 'comment_likes')

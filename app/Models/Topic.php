@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Support\TextCensor;
+use Illuminate\Support\Facades\Storage;
 
 class Topic extends Model
 {
@@ -22,6 +23,17 @@ class Topic extends Model
     {
         $this->attributes['content'] =
             TextCensor::apply((string) $value, config('banned.censor', []));
+    }
+
+    public function getCoverUrlAttribute(): string
+    {
+        // İlişkili ilk resmi döndür, yoksa default
+        $first = $this->images()->first();
+        if ($first && $first->image_path) {
+            return Storage::url($first->image_path);
+        }
+        // varsayılan public/images altında
+        return asset('images/defaults/topic.png');
     }
 
     protected static function booted(): void

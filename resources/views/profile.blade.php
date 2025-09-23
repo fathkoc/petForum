@@ -470,7 +470,7 @@ body {
         <div>
 
         <!-- Üye Bilgileri Kartı -->
-<div class="container my-5">
+
     <div class="profile-card card border-0 shadow-lg">
         <div class="card-header bg-primary text-white text-center py-4">
             <h4 class="mb-0 fw-semibold">Üye Bilgileri</h4>
@@ -483,7 +483,7 @@ body {
                 <div class="col-12 col-md-4 text-center">
                     <div class="avatar-wrapper mb-3">
                         <img id="avatarPreview"
-                             src="{{ $user->image_path ? asset('storage/'.$user->image_path) : asset('images/default-avatar.png') }}"
+                             src="{{ $user->image_path ? asset('storage/'.$user->image_path) :  asset('storage/default/avatar.png') }}"
                              alt="{{ $user->name }}"
                              class="rounded-circle img-fluid shadow-sm"
                              style="width:180px;height:180px;object-fit:cover;">
@@ -551,7 +551,7 @@ body {
             </div>
         </div>
     </div>
-</div>
+
 
 <!-- /Üye Bilgileri Kartı -->
 

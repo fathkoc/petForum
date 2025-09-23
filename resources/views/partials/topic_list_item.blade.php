@@ -4,7 +4,7 @@
          alt="avatar" width="55" height="55"
          style="object-fit:cover;border-radius:50%;">
   @else
-    <img src="{{ asset('images/default-avatar.png') }}"
+    <img src="{{ asset('storage/default/avatar.png') }}"
          alt="default avatar" width="55" height="55"
          style="object-fit:cover;border-radius:50%;">
   @endif
