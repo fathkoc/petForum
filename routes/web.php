@@ -130,6 +130,9 @@ Route::prefix('admin')->group(function () {
     Route::delete('/users/{id}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
     Route::put('/users/{id}', [AdminController::class, 'updateUser'])->name('admin.users.update');  
 
+    Route::get('/reportsComment', [AdminController::class, 'reportComment'])->name('admin.reports.comments');
+    Route::post('/comments/{comment}/delete', [AdminController::class, 'softDeleteComment'])
+        ->name('comment.delete');
 
     Route::get('/reports', [AdminController::class, 'report'])->name('admin.reports.index');
     Route::get('/reports/{id}', [AdminController::class, 'reportShow'])->name('admin.reports.show');

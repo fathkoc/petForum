@@ -113,6 +113,7 @@
                 <li><a href="{{ route('admin.users') }}">Kullanıcılar</a></li>
                 <li><a href="{{ route('admin.topics') }}">Sorular</a></li>
                 <li><a href="{{ route('admin.reports.index') }}">Şikayetler</a></li>
+                <li><a href="{{ route('admin.reports.comments') }}">Yorum Şikayetleri</a></li>
                 <li><a href="{{ route('admin.logout') }}"
                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Çıkış Yap</a></li>
                 <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">

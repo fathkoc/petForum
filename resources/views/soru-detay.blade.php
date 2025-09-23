@@ -575,10 +575,14 @@
     </div>
   </div>
   <!--FİNİSH KATEGORİLER MOBİL 01-->
-
+@if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
   <!--START BREADCRUMB-->
   <div class="qna-wrapper">
-  <!-- SOL: ANA İÇERİK -->
+  
   <main>
     <div class="qna-post">
       <h1 class="qna-title">{{ $topic->title }}</h1>
@@ -591,7 +595,7 @@
         <div>
           <strong>{{ $topic->user->name }}</strong>
           <div class="small text-muted">
-            <i class="fa-solid fa-paw"></i> {{ $topic->user->points }} Pati
+            <i class="fa-solid fa-paw"></i> {{ $topic->user->points }} Pati Puan
             @if($topic->user?->rank)
               <span class="qna-rank-badge">{{ $topic->user->rank->name }}</span>
             @endif
@@ -619,13 +623,13 @@
         data-topic-id="{{ $topic->id }}"
         onclick="voteAnswer(this,'like')">
   👍 {{ $topic->likes->count() }} Pati
-</button>
+        </button>
 
           <button class="btn btn-outline-danger" onclick="openReportModal({{ $topic->id }})">
             ⚠️ Şikayet Et
           </button>
         @else
-          <a href="{{ route('login') }}" class="btn btn-outline-primary">👍 Beğenmek için Giriş Yap</a>
+          <a href="https://www.expressmama.com/UyeGiris" class="btn btn-outline-primary">👍 Beğenmek için Giriş Yap</a>
         @endauth
       </div>
     </div>
@@ -656,7 +660,7 @@
                         {{ $comment->created_at->timezone('Europe/Istanbul')->format('d.m.Y H:i') }}
                     </span>
                     <div class="small text-muted">
-            <i class="fa-solid fa-paw"></i> {{ $topic->user->points }} Pati
+            <i class="fa-solid fa-paw"></i> {{ $topic->user->points }} Pati Puan
             @if($topic->user?->rank)
               <span class="qna-rank-badge">{{ $topic->user->rank->name }}</span>
             @endif
@@ -706,10 +710,10 @@
 </form>
 
                 @else
-                    <a href="{{ route('login') }}" class="btn btn-outline-primary btn-sm">
+                    <a href="https://www.expressmama.com/UyeGiris" class="btn btn-outline-primary btn-sm">
                         🐾 Giriş Yap
                     </a>
-                    <a href="{{ route('login') }}" class="btn btn-outline-danger btn-sm">
+                    <a href="https://www.expressmama.com/UyeGiris" class="btn btn-outline-danger btn-sm">
                         ⚠️ Giriş Yap
                     </a>
                 @endauth
@@ -732,7 +736,7 @@
         @auth
           <button type="submit" class="btn btn-primary mt-3">Cevabı Gönder</button>
         @else
-          <a href="{{ route('login') }}" class="btn btn-outline-primary mt-3">Giriş Yap</a>
+          <a href="https://www.expressmama.com/UyeGiris" class="btn btn-outline-primary mt-3">Giriş Yap</a>
         @endauth
       </form>
     </div>
@@ -743,7 +747,7 @@
     <div class="sidebar-widget">
       <h3>SORUNUZ MU VAR?</h3>
       <p class="text-muted small mb-3">Uzmanlardan ve diğer üyelerden faydalı cevaplar almak için:</p>
-      <a href="{{ auth()->check()? route('topic.create') : route('login') }}"
+      <a href="{{ auth()->check()? route('topic.create') : "https://www.expressmama.com/UyeGiris" }}"
          class="btn btn-danger w-100">Yeni Soru Sor</a>
     </div>
 

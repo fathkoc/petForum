@@ -27,4 +27,9 @@ class CommentReport extends Model
     {
         return $this->belongsTo(User::class, 'handled_by');
     }
+
+     public function user()      // raporu gönderen kullanıcı
+    {
+        return $this->belongsTo(User::class);
+    }
 }

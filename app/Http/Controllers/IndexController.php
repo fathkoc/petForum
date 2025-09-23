@@ -136,10 +136,15 @@ class IndexController extends Controller
 
     public function showTopic()
     {
-        $categorys = Category::where('deleted', 0)
+
+    $categorys = Category::where('deleted', 0)
                 ->get();
 
-        return view('sor', compact('categorys'));
+    $iller = json_decode(file_get_contents(storage_path('app/data/iller.json')), true);
+$ilceler = json_decode(file_get_contents(storage_path('app/data/ilceler.json')), true);
+
+
+        return view('sor', compact('categorys', 'iller', 'ilceler'));    
     }
 
    public function showTopicDetail($id)

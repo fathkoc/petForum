@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Topic;
 use App\Models\Category;
 use App\Models\Comment;
+use App\Models\CommentReport;
 
 class AdminController extends Controller
 {
@@ -165,5 +166,36 @@ class AdminController extends Controller
                     ->paginate(10); 
 
         return view('admin.report', compact('reports'));
+    }
+
+    public function reportComment()
+    {
+        $reports = CommentReport::with([
+        'comment.user',     // yorumu yazan
+        'comment.topic',    // konu
+        'user'              // şikayet eden
+    ])
+        ->whereHas('comment', fn($q) => $q->where('deleted', 0)) // <— sadece silinmemiş yorumlar
+        ->latest()
+        ->paginate(20);
+
+        return view('admin.commentReport', compact('reports'));
+    }
+
+    public function softDeleteComment(Request $request, Comment $comment)
+    {
+        // yetki kontrolü istersen:
+        // $this->authorize('delete', $comment);
+
+        if ((int) $comment->deleted === 1) {
+            return back()->with('info', 'Yorum zaten silinmiş.');
+        }
+
+        $comment->update(['deleted' => 1]);
+
+        // (Opsiyonel) Raporları "çözüldü" işaretlemek istersen burada güncelleyebilirsin.
+        // $comment->reports()->update(['status' => 'resolved', 'handled_by' => $request->user()->id]);
+
+        return back()->with('success', 'Yorum silindi (soft delete).');
     }
 }
