@@ -605,6 +605,78 @@
 
       <p class="mt-4">{{ $topic->content }}</p>
 
+
+      {{-- SAHİPLENDİRME BİLGİLERİ --}}
+@if($topic->category_id == 1)
+  <div class="adoption-details mt-4 p-3 border rounded bg-light">
+    <h5 class="fw-semibold mb-3">🐾 Sahiplendirme Bilgileri</h5>
+
+    <ul class="list-unstyled mb-0">
+      @if($topic->type)
+        <li><strong>Tür:</strong> {{ ucfirst($topic->type) }}</li>
+      @endif
+
+      @if($topic->name)
+        <li><strong>Adı:</strong> {{ $topic->name }}</li>
+      @endif
+
+      @if($topic->genus)
+        <li><strong>Irk:</strong> {{ $topic->genus }}</li>
+      @endif
+
+      @if($topic->age)
+        <li><strong>Yaş:</strong> 
+          @switch($topic->age)
+            @case(1) Yavru (0-6 Ay) @break
+            @case(2) Genç (6 Ay-2 Yaş) @break
+            @case(3) Yetişkin (2-7 Yaş) @break
+            @case(4) Yaşlı (7+ Yaş) @break
+            @default {{ $topic->age }}
+          @endswitch
+        </li>
+      @endif
+
+      @if($topic->gender)
+        <li><strong>Cinsiyet:</strong> {{ $topic->gender == 1 ? 'Erkek' : 'Dişi' }}</li>
+      @endif
+
+      @if($topic->size)
+        <li><strong>Boyut:</strong>
+          @switch($topic->size)
+            @case(1) Küçük Boy @break
+            @case(2) Orta Boy @break
+            @case(3) Büyük Boy @break
+            @default {{ $topic->size }}
+          @endswitch
+        </li>
+      @endif
+
+      @if($topic->source)
+        <li><strong>İlan Kimden:</strong>
+          @switch($topic->source)
+            @case(1) Barınaktan @break
+            @case(2) Veteriner Hekimden @break
+            @case(3) Geçici Evinden @break
+            @case(4) Sokaktan @break
+            @case(5) Sahibinden @break
+            @default {{ $topic->source }}
+          @endswitch
+        </li>
+      @endif
+
+      @if($topic->city || $topic->district)
+        <li><strong>Konum:</strong> {{ $topic->district ? $topic->district.',' : '' }} {{ $topic->city }}</li>
+      @endif
+
+
+      @if($topic->phone)
+        <li><strong>Telefon:</strong> {{ $topic->phone }}</li>
+      @endif
+    </ul>
+  </div>
+@endif
+
+
       @if($topic->images->isNotEmpty())
         <div class="row g-3 mt-3">
           @foreach($topic->images as $img)

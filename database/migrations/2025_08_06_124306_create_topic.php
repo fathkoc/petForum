@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('age')->nullable(); 
             $table->string('type', 32)->nullable();    
             $table->string('animal', 32)->nullable();  
+            $table->string('name')->nullable();
 
 
             $table->index(['city', 'district']);

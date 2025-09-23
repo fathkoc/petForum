@@ -497,47 +497,69 @@ body {
     </div>
 @endif
                     <h2 class="container-title">Yeni Soru Sor</h2>
-                    <form action="{{ route('topic.create') }}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                   <form action="{{ route('topic.create') }}" method="post" role="form" enctype="multipart/form-data" class="form-horizontal">
     @csrf
     <fieldset>
+        <!-- Konu Seçimi -->
+        <div class="form-group">
+            <label for="category-select" class="col-md-1 control-label">Konu</label>
+<div>
+  <select name="category" id="category-select" class="form-control" required>
+    <option value="" disabled {{ old('category') ? '' : 'selected' }}>Kategori seçiniz</option>
+    @foreach ($categorys as $category)
+      <option value="{{ $category->id }}" {{ old('category') == $category->id ? 'selected' : '' }}>
+        {{ $category->name }}
+      </option>
+    @endforeach
+  </select>
+</div>
 
-        {{-- Kategori --}}
-        <div class="form-group mb-3">
-            <label for="category-select" class="form-label">Konu</label>
-            <select name="category" id="category-select" class="form-control" required>
-                <option value="" selected disabled>Seçiniz</option>
-                @foreach ($categorys as $category)
-                    <option value="{{ $category->id }}" @selected(old('category')==$category->id)>
-                        {{ $category->name }}
-                    </option>
-                @endforeach
-            </select>
         </div>
 
-        {{-- Başlık --}}
-        <div class="form-group mb-3">
-            <label for="title-input" class="form-label">Başlık</label>
-            <textarea name="title" id="title-input" rows="3" maxlength="255"
-                      class="form-control"
-                      placeholder="Sorunuzun özetini anlaşılır şekilde yazınız."></textarea>
+        <!-- Başlık -->
+        <div class="form-group">
+            <label for="inputTitle" class="col-md-1 control-label">Başlık</label>
+            <div>
+                <textarea
+                    name="title"
+                    class="form-control"
+                    placeholder="Sorunuzun özetini anlaşılır bir şekilde buraya yazmalısınız. Soru cümlesi olmalıdır."
+                    id="inputTitle"
+                    rows="3"
+                    maxlength="255"
+                ></textarea>
+            </div>
         </div>
 
-        {{-- Soru İçeriği --}}
-        <div class="form-group mb-4">
-            <label for="content-input" class="form-label">Soru</label>
-            <textarea name="content" id="content-input" rows="5" maxlength="2000"
-                      class="form-control"
-                      placeholder="Sorunuzu detaylı anlatırsanız daha doğru cevaplar alabilirsiniz."></textarea>
+        <!-- Soru İçeriği -->
+        <div class="form-group">
+            <label for="inputDescription" class="col-md-1 control-label">Soru</label>
+            <div>
+                <div class="md-editör" id="1753537654648">
+                    <textarea
+                        name="content"
+                        class="form-control md-input"
+                        placeholder="Sorunuzu detaylı anlatırsanız, diğer üyeler ve uzmanlardan daha doğru cevaplar alabilirsiniz."
+                        data-iconlibrary="fa"
+                        data-provide="markdown"
+                        data-hidden-buttons='["cmdCode","cmdPreview"]'
+                        maxlength="2000"
+                        rows="5"
+                        style="resize: none;"
+                    ></textarea>
+                </div>
+            </div>
         </div>
 
-        {{-- ====== A D O  Alanı ====== --}}
-        <div class="ADO d-none">
-            <div class="adoption-container border rounded p-3 bg-light">
-
-                {{-- Pet Türü --}}
-                <div class="form-group mb-3">
-                    <label for="pet-type" class="form-label">Pet Türü Seçiniz</label>
-                    <select id="pet-type" name="animal" class="form-control">
+        <!-- Sahiplendirme Bilgileri -->
+        <div class="adoption-container d-none">
+            <div class="adoption-header"></div>
+            <div class="adoption-content">
+                
+                <!-- Pet Türü -->
+                <div class="form-group">
+                    <label for="pet-type">Pet Türü Seçiniz</label>
+                    <select class="form-control" name="animal" id="form-header-select">
                         <option value="kedi">Kedi</option>
                         <option value="köpek">Köpek</option>
                         <option value="kuş">Kuş</option>
@@ -546,63 +568,59 @@ body {
                         <option value="akvaryum">Akvaryum</option>
                     </select>
                 </div>
+    
 
-                {{-- Adı --}}
-                <div class="form-group mb-3">
-                    <label for="pet-name" class="form-label">Adı</label>
-                    <input type="text" id="pet-name" name="pet_name" class="form-control"
-                           placeholder="Bir adı yoksa şimdilik siz belirtebilirsiniz.">
+                <!-- Irk -->
+                <div class="form-group">
+                    <label for="pet-types">Irk</label>
+                    <input
+                        type="text"
+                        id="pet-types"
+                        name="genus"
+                        class="form-control"
+                        placeholder="Örneğin: British Shorthair, Golden Retriever"
+                    >
                 </div>
 
-                {{-- Irk --}}
-                <div class="form-group mb-3">
-                    <label for="pet-genus" class="form-label">Irk</label>
-                    <input type="text" id="pet-genus" name="genus" class="form-control"
-                           placeholder="Örn: British Shorthair, Golden Retriever">
-                </div>
-
-                {{-- Yaş --}}
-                <div class="form-group mb-3">
-                    <label for="pet-age" class="form-label">Yaş</label>
-                    <select id="pet-age" name="age" class="form-control">
-                        <option value="">Seçiniz</option>
-                        <option value="Yavru">Yavru (0-6 Aylık)</option>
-                        <option value="Genç">Genç (6 Ay - 2 Yaş)</option>
-                        <option value="Yetişkin">Yetişkin (2 - 7 Yaş)</option>
-                        <option value="Yaşlı">Yaşlı (7+ Yaş)</option>
+                <!-- Yaş -->
+                <div class="form-group">
+                    <label for="pet-age">Yaş</label>
+                    <select class="form-control" name="age" id="form-header-select">
+                        <option value="" selected>Seçiniz</option>
+                        <option value="1">Yavru (0-6 Aylık)</option>
+                        <option value="2">Genç (6 Aylık - 2 Yaş)</option>
+                        <option value="3">Yetişkin (2 - 7 Yaş)</option>
+                        <option value="4">Yaşlı (7 Yaş ve üzeri)</option>
                     </select>
                 </div>
 
-                {{-- Cinsiyet --}}
-                <div class="form-group mb-3">
-                    <label for="pet-gender" class="form-label">Cinsiyet</label>
-                    <select id="pet-gender" name="gender" class="form-control">
-                        <option value="">Seçiniz</option>
-                        <option value="Erkek">Erkek</option>
-                        <option value="Dişi">Dişi</option>
+                <!-- Cinsiyet -->
+                <div class="form-group">
+                    <label for="pet-gender">Cinsiyet</label>
+                    <select name="gender" class="form-control" id="form-header-select">
+                        <option value="" selected>Seçiniz</option>
+                        <option value="1">Erkek</option>
+                        <option value="2">Dişi</option>
                     </select>
                 </div>
 
-                {{-- Boyut --}}
-              
 
-                {{-- İlan Kimden --}}
-                <div class="form-group mb-3">
-                    <label for="pet-from" class="form-label">İlan Kimden</label>
-                    <select id="pet-from" name="type" class="form-control">
-                        <option value="">Seçiniz</option>
+                <!-- İlan Kaynağı -->
+                <div class="form-group">
+                    <label for="pet-source">İlan Kimden</label>
+                    <select class="form-control" name="type" id="form-header-select">
+                        <option value="0" selected>Seçiniz</option>
                         <option value="Barınaktan">Barınaktan</option>
-                        <option value="Veteriner">Veteriner Hekimden</option>
-                        <option value="Geçici Ev">Geçici Evinden</option>
+                        <option value="Veteriner Hekimden">Veteriner Hekimden</option>
                         <option value="Sokaktan">Sokaktan</option>
                         <option value="Sahibinden">Sahibinden</option>
                     </select>
                 </div>
 
-                {{-- Şehir & İlçe --}}
-                <div class="form-group mb-3">
-                    <label for="city" class="form-label">Şehir</label>
-                    <select id="city" name="city" class="form-select">
+                <!-- Şehir ve İlçe -->
+                <div class="form-group">
+                    <label for="city">Şehir</label>
+                    <select id="city" name="city" class="form-select" required>
                         <option value="">İl Seçiniz</option>
                         @foreach($iller as $il)
                             <option value="{{ $il['sehir_adi'] }}">{{ ucfirst($il['sehir_adi']) }}</option>
@@ -610,55 +628,67 @@ body {
                     </select>
                 </div>
 
-                <div class="form-group mb-3">
-                    <label for="district" class="form-label">İlçe</label>
-                    <select id="district" name="district" class="form-select">
+                <div class="form-group">
+                    <label for="district">İlçe</label>
+                    <select id="district" name="district" class="form-select" required>
                         <option value="">Önce il seçiniz</option>
                     </select>
                 </div>
 
-                {{-- İletişim --}}
-                <div class="form-group mb-3">
-                    <label for="owner-name" class="form-label">Ad Soyad</label>
-                    <input type="text" id="owner-name" name="owner_name" class="form-control"
-                           placeholder="Ad Soyad Giriniz">
+                <!-- Ad Soyad -->
+                <div class="form-group">
+                    <label for="owner-name">Ad Soyad</label>
+                    <textarea
+                        type="text"
+                        placeholder="Ad Soyad Giriniz"
+                        id="form-header-select"
+                        class="form-control md-input"
+                        name="name"
+                    ></textarea>
                 </div>
 
-                <div class="form-group mb-3">
-                    <label for="owner-phone" class="form-label">Telefon</label>
-                    <input type="text" id="owner-phone" name="phone" class="form-control"
-                           placeholder="0(5**) *** ** **">
+                <!-- Telefon -->
+                <div class="form-group">
+                    <label for="owner-phone">Telefon</label>
+                    <textarea
+                        type="text"
+                        placeholder="0(5**) *** ** **"
+                        id="form-header-select"
+                        class="form-control md-input"
+                        name="phone"
+                    ></textarea>
                 </div>
 
-                {{-- Uyarılar --}}
-                <div class="adoption-warning mt-3">
-                    <p><i class="fa-solid fa-circle-exclamation"></i> Sadece <b>ücretsiz sahiplendirmeler</b> için ilan verilebilir.</p>
-                    <p><i class="fa-solid fa-circle-exclamation"></i> Her hayvan için <b>ayrı ilan</b> veriniz.</p>
-                    <p><i class="fa-solid fa-circle-exclamation"></i> Kurallara uymayan ilanlar silinebilir ve üyelik iptal edilebilir.</p>
+                <!-- Uyarılar -->
+                <div class="adoption-warning">
+                    <div class="adoption-list">
+                        <p><i class="fa-solid fa-circle-exclamation"></i> Sadece <b>ücretsiz sahiplendirmeler</b> için ilan verilebilir.</p>
+                        <p><i class="fa-solid fa-circle-exclamation"></i> Evcil hayvan arıyorsanız "arıyorum" içerikli ilanlar açmak yerine sahiplendirme ilanlarına bakabilirsiniz.</p>
+                        <p><i class="fa-solid fa-circle-exclamation"></i> Sahiplendirmek istediğiniz her evsiz hayvan için <b>ayrı ayrı ilan vermelisiniz.</b></p>
+                        <p><i class="fa-solid fa-circle-exclamation"></i> Kurallara uygun olmayan ilanlar veren üyelerin <b>üyelikleri yeniden açılmamak üzere iptal edilir.</b></p>
+                    </div>
                 </div>
 
             </div>
         </div>
-        {{-- ====== /ADO Alanı ====== --}}
 
-        {{-- Resimler --}}
-        <div class="form-group mt-4 mb-4">
-            <input type="file" name="images[]" id="images" class="form-control" accept="image/*" multiple>
-            <small class="form-text text-muted">Birden fazla fotoğraf seçebilirsiniz.</small>
+        <!-- Fotoğraf Yükleme -->
+        <div class="row bottom-margin-15">
+            <div class="form-group mt-4">
+                <input type="file" name="images[]" id="images" class="form-control" accept="image/*" multiple>
+                <small class="form-text text-muted">Birden fazla fotoğraf seçebilirsiniz.</small>
+            </div>
         </div>
 
-        {{-- Submit --}}
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Gönder & Yayınla!</button>
+        <!-- Gönder Butonu -->
+        <div class="form-group row mt-4">
+            <div class="col-md-2 col-md-offset-1">
+                <button type="submit" class="btn btn-primary">Gönder Yayınla!</button>
+            </div>
         </div>
-
     </fieldset>
 </form>
 
-                </div>
-            </div>
-        </div>
-    </div>
 
 
   
@@ -827,19 +857,54 @@ console.log(document.elementFromPoint(r.left + r.width/2, r.top + r.height/2));
           });
     });
 </script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const select = document.getElementById('category-select');
-    const adoBox = document.querySelector('.ADO');
+  const categorySel = document.getElementById('category-select');
+  const adoptionBox = document.querySelector('.adoption-container');
+  const adoptionFields = adoptionBox.querySelectorAll('input, select, textarea');
 
-    function toggleADO() {
-        adoBox.classList.toggle('d-none', select.value !== '1');
+  function apply(show) {
+    if (show) {
+      adoptionBox.classList.remove('d-none');
+    } else {
+      adoptionBox.classList.add('d-none');
     }
+    adoptionFields.forEach(el => el.disabled = !show);
+  }
 
-    toggleADO();
-    select.addEventListener('change', toggleADO);
+  function toggle() {
+    apply(categorySel.value === '1');
+  }
+
+  // İlk yüklemede ve değişimde çalıştır
+  toggle();
+  categorySel.addEventListener('change', toggle);
 });
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const categorySel = document.getElementById('category-select');
+  const imagesInput = document.getElementById('images');
+
+  function toggleImagesRequired() {
+    const must = categorySel.value === '1';
+    if (must) {
+      imagesInput.required = true;
+      imagesInput.disabled = false;
+    } else {
+      imagesInput.required = false;
+      // İstersen disable da edebilirsin; genelde gerekmez
+      // imagesInput.disabled = true;
+    }
+  }
+
+  toggleImagesRequired();
+  categorySel.addEventListener('change', toggleImagesRequired);
+});
+</script>
+
 
 </body>
 

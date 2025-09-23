@@ -117,6 +117,7 @@ class IndexController extends Controller
     $topic->age = $request->input('age');
     $topic->type = $request->input('type');
     $topic->animal = $request->input('animal');
+    $topic->name = $request->input('name');
     $topic->save();
 
     if ($request->hasFile('images')) {
